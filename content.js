@@ -1,3 +1,15 @@
+const REF_CLASS_ID = 2674
+const REC_CLASS_ID = 5564
+const SCRAP_CLASS_ID = 2675
+
+function check_current_metals() {
+
+    while (pageTotal != 0) {
+        
+    }
+
+}
+
 function calcMetal(refValue) {
   const totalScrap = Math.floor(refValue * 9);
 
