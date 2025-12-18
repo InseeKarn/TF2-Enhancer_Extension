@@ -1,4 +1,15 @@
+import { createTradeButton } from "./injectButton.js";
 
+if (window.__TF2_EXT_LOADED__) {
+  console.log("TF2 extension already loaded");
+} else {
+  window.__TF2_EXT_LOADED__ = true;
+  init();
+}
+
+function init() {
+  createTradeButton(loadInventory);
+}
 
 function waitForTF2Inventory() {
   return new Promise(resolve => {
@@ -16,47 +27,36 @@ function waitForTF2Inventory() {
   });
 }
 
-function parseMetals(inventory){
+function parseMetals(inventory) {
+  const REF_CLASS_ID = 2674;
+  const REC_CLASS_ID = 5564;
+  const SCRAP_CLASS_ID = 2675;
 
-    const REF_CLASS_ID = 2674
-    const REC_CLASS_ID = 5564
-    const SCRAP_CLASS_ID = 2675
+  const metals = {
+    refineds: [],
+    reclaimeds: [],
+    scraps: [],
+  };
 
-    const metals = {
-        refineds: [],
-        reclaimeds: [],
-        scraps: [],
-    }
+  Object.values(inventory).forEach(item => {
+    if (item.classid == REF_CLASS_ID) metals.refineds.push(item);
+    if (item.classid == REC_CLASS_ID) metals.reclaimeds.push(item);
+    if (item.classid == SCRAP_CLASS_ID) metals.scraps.push(item);
+  });
 
-    object.values(inventory).forEach(item => {
-        if (item.classid == REF_CLASS_ID) {
-            metals.refineds.push(item);
-        }
-        if (item.classid == REC_CLASS_ID) {
-            metals.reclaimeds.push(item);
-        }
-        if (item.classid == SCRAP_CLASS_ID) {
-            metals.scraps.push(item);
-        }
-    });
-
-    return metals;
+  return metals;
 }
 
-function check_current_metals() {
+let METAL_STATE = null;
 
-    while (pageTotal != 0) {
+async function loadInventory() {
+  console.log("Loading inventory...");
+  const inventory = await waitForTF2Inventory();
+  METAL_STATE = parseMetals(inventory);
 
-    }
-
-}
-
-function calcMetal(refValue) {
-  const totalScrap = Math.floor(refValue * 9);
-
-  const ref = Math.floor(totalScrap / 9);
-  const rec = Math.floor((totalScrap % 9) / 3);
-  const scrap = totalScrap % 3;
-
-  return { ref, rec, scrap };
+  console.log("Loaded metals:", {
+    ref: METAL_STATE.refineds.length,
+    rec: METAL_STATE.reclaimeds.length,
+    scrap: METAL_STATE.scraps.length
+  });
 }
