@@ -1,15 +1,15 @@
-import { createTradeButton } from "./injectButton.js";
 
-if (window.__TF2_EXT_LOADED__) {
-  console.log("TF2 extension already loaded");
-} else {
-  window.__TF2_EXT_LOADED__ = true;
-  init();
-}
 
-function init() {
-  createTradeButton(loadInventory);
-}
+const wait = setInterval(() => {
+  const main = document.querySelector("#mainContent");
+  if (!main) return;
+
+  clearInterval(wait);
+
+  window.createTradeButton(() => alert("IT WORKS"), main);
+}, 300);
+
+
 
 function waitForTF2Inventory() {
   return new Promise(resolve => {
