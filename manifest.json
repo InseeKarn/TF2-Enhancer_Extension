@@ -7,10 +7,17 @@
     {
       "matches": ["https://steamcommunity.com/tradeoffer/*"],
       "js": [
-        "content.js",
-        "injectButton.js"
+        "uis/cals.js",
+        "content.js"
+        
       ],
       "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["pageScript.js"],
+      "matches": ["https://steamcommunity.com/*"]
     }
   ],
   "action": {

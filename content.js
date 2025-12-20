@@ -1,12 +1,10 @@
-
-
 const wait = setInterval(() => {
-  const main = document.querySelector("#mainContent");
+  const main = document.querySelector("#nonresponsivetrade_itemfilters");
   if (!main) return;
 
   clearInterval(wait);
 
-  window.createTradeButton(() => alert("IT WORKS"), main);
+  window.createTradeButton(() => loadInventory(), main);
 }, 300);
 
 
@@ -21,7 +19,7 @@ function waitForTF2Inventory() {
         UserYou.rgInventory["440"]["2"]
       ) {
         clearInterval(timer);
-        resolve(UserYou.rgInventory["440"]["2"].rgInventory);
+        resolve(UserYou.getInventory(440, 2));
       }
     }, 300);
   });
